@@ -75,6 +75,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
   box-shadow:0 2px 10px rgba(0,0,0,.5)}
 .back-to-top:hover{background:#444}
 
+/* Interactive TOC */
+.toc-box{max-width:700px;background:#181818;border:1px solid #262626;border-radius:8px;
+  padding:1.5rem 2rem}
+.toc-entry{display:flex;align-items:baseline;gap:.25rem;padding:.35rem 0;
+  color:#ccc;text-decoration:none;font-size:.9rem;transition:color .12s}
+.toc-entry:hover{color:#8ab4f8}
+.toc-entry .toc-dots{flex:1;border-bottom:1px dotted #444;margin:0 .4rem;min-width:1rem;
+  position:relative;top:-.2rem}
+.toc-entry .toc-page{color:#777;font-size:.85rem;flex-shrink:0}
+.toc-entry:hover .toc-page{color:#8ab4f8}
+.toc-entry.toc-sub{padding-left:2rem;font-size:.85rem}
+
 /* Mobile */
 @media(max-width:768px){
   .topbar .menu-btn{display:block}
@@ -124,12 +136,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
     <div class="content">
     <section class="chapter" id="contents">
       <h2 class="chapter-title">Contents</h2>
-      <p class="chapter-sub">Pages 1&ndash;1 &middot; 1 page</p>
-      <div class="pages single">
-        <div class="page-card">
-          <img src="images/4l60e/page-001.jpg" alt="Contents — Page 1" loading="eager" decoding="async">
-          <div class="label">Page 1</div>
-        </div>
+      <p class="chapter-sub">Click a section to jump to it</p>
+      <div class="toc-box">
+        <a href="#introduction" class="toc-entry"><span>Introduction</span><span class="toc-dots"></span><span class="toc-page">3</span></a>
+        <a href="#how-to-use-this-book" class="toc-entry"><span>How to Use This Book</span><span class="toc-dots"></span><span class="toc-page">4</span></a>
+        <a href="#understanding-the-graphics" class="toc-entry"><span>Understanding the Graphics</span><span class="toc-dots"></span><span class="toc-page">6</span></a>
+        <a href="#transmission-cutaway-view" class="toc-entry"><span>Transmission Cutaway View (Foldout)</span><span class="toc-dots"></span><span class="toc-page">8</span></a>
+        <a href="#general-description" class="toc-entry"><span>General Description</span><span class="toc-dots"></span><span class="toc-page">9</span></a>
+        <a href="#principles-of-operation" class="toc-entry"><span>Principles of Operation</span><span class="toc-dots"></span><span class="toc-page">9A</span></a>
+        <a href="#principles-of-operation" class="toc-entry toc-sub"><span>Major Mechanical Components (Foldout)</span><span class="toc-dots"></span><span class="toc-page">10</span></a>
+        <a href="#principles-of-operation" class="toc-entry toc-sub"><span>Range Reference Chart</span><span class="toc-dots"></span><span class="toc-page">11</span></a>
+        <a href="#principles-of-operation" class="toc-entry toc-sub"><span>Torque Converter</span><span class="toc-dots"></span><span class="toc-page">12</span></a>
+        <a href="#apply-components" class="toc-entry toc-sub"><span>Apply Components</span><span class="toc-dots"></span><span class="toc-page">15</span></a>
+        <a href="#planetary-gear-sets" class="toc-entry toc-sub"><span>Planetary Gear Sets</span><span class="toc-dots"></span><span class="toc-page">24</span></a>
+        <a href="#hydraulic-control-components" class="toc-entry toc-sub"><span>Hydraulic Control Components</span><span class="toc-dots"></span><span class="toc-page">27</span></a>
+        <a href="#electronic-control-components" class="toc-entry toc-sub"><span>Electronic Control Components</span><span class="toc-dots"></span><span class="toc-page">34</span></a>
+        <a href="#power-flow" class="toc-entry"><span>Power Flow</span><span class="toc-dots"></span><span class="toc-page">41</span></a>
+        <a href="#complete-hydraulic-circuits" class="toc-entry"><span>Complete Hydraulic Circuits</span><span class="toc-dots"></span><span class="toc-page">67</span></a>
+        <a href="#lubrication-points" class="toc-entry"><span>Lubrication Points</span><span class="toc-dots"></span><span class="toc-page">92</span></a>
+        <a href="#bushing-bearing-and-washer-locations" class="toc-entry"><span>Bushing, Bearing &amp; Washer Locations</span><span class="toc-dots"></span><span class="toc-page">93</span></a>
+        <a href="#seal-locations" class="toc-entry"><span>Seal Locations</span><span class="toc-dots"></span><span class="toc-page">94</span></a>
+        <a href="#illustrated-parts-list" class="toc-entry"><span>Illustrated Parts List</span><span class="toc-dots"></span><span class="toc-page">95</span></a>
+        <a href="#basic-specifications" class="toc-entry"><span>Basic Specifications</span><span class="toc-dots"></span><span class="toc-page">103</span></a>
+        <a href="#product-designation-system" class="toc-entry"><span>Product Designation System</span><span class="toc-dots"></span><span class="toc-page">104</span></a>
+        <a href="#glossary" class="toc-entry"><span>Glossary</span><span class="toc-dots"></span><span class="toc-page">105</span></a>
+        <a href="#abbreviations" class="toc-entry"><span>Abbreviations</span><span class="toc-dots"></span><span class="toc-page">107</span></a>
+        <a href="#index" class="toc-entry"><span>Index</span><span class="toc-dots"></span><span class="toc-page">109</span></a>
       </div>
     </section>
     <section class="chapter" id="introduction">
