@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>4L60-E Hydra-Matic Technician&#x27;s Guide</title>
+  <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:#0e0e0e;color:#d4d4d4;line-height:1.6;overflow-x:hidden}
+
+/* Top bar */
+.topbar{position:sticky;top:0;z-index:20;background:rgba(18,18,18,.92);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid #262626;padding:.6rem 1rem;
+  display:flex;align-items:center;gap:.75rem}
+.topbar a.back{color:#8ab4f8;text-decoration:none;font-size:.85rem;flex-shrink:0}
+.topbar a.back:hover{text-decoration:underline}
+.topbar h1{font-size:clamp(.85rem,2.5vw,1.1rem);font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.topbar .menu-btn{display:none;background:none;border:1px solid #444;
+  color:#ccc;border-radius:6px;padding:.3rem .6rem;font-size:.8rem;cursor:pointer}
+
+/* Chapter nav */
+.layout{display:flex;min-height:calc(100vh - 48px)}
+.sidebar{width:260px;flex-shrink:0;background:#141414;border-right:1px solid #222;
+  padding:1rem 0;overflow-y:auto;position:sticky;top:48px;height:calc(100vh - 48px)}
+.sidebar a{display:block;padding:.4rem 1rem;color:#999;text-decoration:none;
+  font-size:.82rem;border-left:3px solid transparent;transition:all .12s}
+.sidebar a:hover{color:#e0e0e0;background:#1a1a1a}
+.sidebar a.active{color:#8ab4f8;border-left-color:#8ab4f8;background:#1a1a1a}
+.content{flex:1;min-width:0;padding:1.5rem 1rem 4rem}
+
+/* Chapter sections */
+.chapter{margin-bottom:3rem;scroll-margin-top:60px}
+.chapter-title{font-size:1.35rem;font-weight:700;color:#e8e8e8;
+  margin-bottom:.35rem;padding-bottom:.5rem;border-bottom:1px solid #262626}
+.chapter-sub{color:#777;font-size:.85rem;margin-bottom:1.25rem}
+
+/* Page images in a grid */
+.pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.pages.single{grid-template-columns:1fr;max-width:700px}
+.page-card{background:#181818;border:1px solid #262626;border-radius:8px;
+  overflow:hidden;cursor:pointer;transition:border-color .15s,transform .15s}
+.page-card:hover{border-color:#444;transform:translateY(-2px)}
+.page-card img{width:100%;height:auto;display:block}
+.page-card .label{padding:.4rem .6rem;font-size:.72rem;color:#666;text-align:center}
+
+/* Lightbox / Zoom overlay */
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.95);
+  display:none;flex-direction:column;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox .lb-close{position:absolute;top:.75rem;right:.75rem;background:#333;
+  color:#eee;border:none;border-radius:50%;width:40px;height:40px;font-size:1.3rem;
+  cursor:pointer;z-index:101;display:flex;align-items:center;justify-content:center}
+.lightbox .lb-nav{position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(50,50,50,.7);color:#eee;border:none;border-radius:50%;
+  width:44px;height:44px;font-size:1.4rem;cursor:pointer;z-index:101;
+  display:flex;align-items:center;justify-content:center}
+.lightbox .lb-nav.prev{left:.75rem}
+.lightbox .lb-nav.next{right:.75rem}
+.lightbox .lb-counter{position:absolute;bottom:.75rem;left:50%;transform:translateX(-50%);
+  color:#888;font-size:.8rem;z-index:101}
+.lightbox .lb-viewport{width:100%;height:100%;overflow:auto;-webkit-overflow-scrolling:touch;
+  display:flex;align-items:center;justify-content:center;touch-action:pan-x pan-y pinch-zoom}
+.lightbox .lb-viewport img{max-width:none;max-height:none;width:auto;height:auto;
+  transform-origin:center center;transition:none;user-select:none;-webkit-user-select:none}
+.lightbox .lb-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  color:#555;font-size:.75rem;z-index:101;pointer-events:none}
+
+/* Back to top */
+.back-to-top{position:fixed;bottom:1.25rem;right:1.25rem;background:#282828;color:#aaa;
+  border:none;border-radius:50%;width:44px;height:44px;font-size:1.2rem;cursor:pointer;
+  display:none;align-items:center;justify-content:center;z-index:10;
+  box-shadow:0 2px 10px rgba(0,0,0,.5)}
+.back-to-top:hover{background:#444}
+
+/* Mobile */
+@media(max-width:768px){
+  .topbar .menu-btn{display:block}
+  .sidebar{position:fixed;top:48px;left:-280px;width:280px;height:calc(100vh - 48px);
+    z-index:30;transition:left .25s ease;box-shadow:none}
+  .sidebar.open{left:0;box-shadow:4px 0 20px rgba(0,0,0,.5)}
+  .sidebar-overlay{display:none;position:fixed;inset:0;top:48px;z-index:29;background:rgba(0,0,0,.4)}
+  .sidebar-overlay.open{display:block}
+  .content{padding:1rem .5rem 3rem}
+  .pages{grid-template-columns:1fr}
+  .chapter-title{font-size:1.1rem}
+}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="back" href="index.html">&larr; Home</a>
+    <h1>4L60-E Hydra-Matic Technician&#x27;s Guide</h1>
+    <button class="menu-btn">Chapters</button>
+  </div>
+  <div class="sidebar-overlay"></div>
+  <div class="layout">
+    <nav class="sidebar">
+    <a href="#contents">Contents</a>
+    <a href="#introduction">Introduction</a>
+    <a href="#how-to-use-this-book">How to Use This Book</a>
+    <a href="#understanding-the-graphics">Understanding the Graphics</a>
+    <a href="#transmission-cutaway-view">Transmission Cutaway View</a>
+    <a href="#general-description">General Description</a>
+    <a href="#principles-of-operation">Principles of Operation</a>
+    <a href="#apply-components">Apply Components</a>
+    <a href="#planetary-gear-sets">Planetary Gear Sets</a>
+    <a href="#hydraulic-control-components">Hydraulic Control Components</a>
+    <a href="#electronic-control-components">Electronic Control Components</a>
+    <a href="#power-flow">Power Flow</a>
+    <a href="#complete-hydraulic-circuits">Complete Hydraulic Circuits</a>
+    <a href="#lubrication-points">Lubrication Points</a>
+    <a href="#bushing-bearing-and-washer-locations">Bushing, Bearing &amp; Washer Locations</a>
+    <a href="#seal-locations">Seal Locations</a>
+    <a href="#illustrated-parts-list">Illustrated Parts List</a>
+    <a href="#basic-specifications">Basic Specifications</a>
+    <a href="#product-designation-system">Product Designation System</a>
+    <a href="#glossary">Glossary</a>
+    <a href="#abbreviations">Abbreviations</a>
+    <a href="#index">Index</a>
+    </nav>
+    <div class="content">
+    <section class="chapter" id="contents">
+      <h2 class="chapter-title">Contents</h2>
+      <p class="chapter-sub">Pages 1&ndash;1 &middot; 1 page</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-001.jpg" alt="Contents — Page 1" loading="eager" decoding="async">
+          <div class="label">Page 1</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="introduction">
+      <h2 class="chapter-title">Introduction</h2>
+      <p class="chapter-sub">Pages 2&ndash;3 &middot; 2 pages</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-002.jpg" alt="Introduction — Page 2" loading="eager" decoding="async">
+          <div class="label">Page 2</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-003.jpg" alt="Introduction — Page 3" loading="eager" decoding="async">
+          <div class="label">Page 3</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="how-to-use-this-book">
+      <h2 class="chapter-title">How to Use This Book</h2>
+      <p class="chapter-sub">Pages 4&ndash;5 &middot; 2 pages</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-004.jpg" alt="How to Use This Book — Page 4" loading="eager" decoding="async">
+          <div class="label">Page 4</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-005.jpg" alt="How to Use This Book — Page 5" loading="lazy" decoding="async">
+          <div class="label">Page 5</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="understanding-the-graphics">
+      <h2 class="chapter-title">Understanding the Graphics</h2>
+      <p class="chapter-sub">Pages 6&ndash;7 &middot; 2 pages</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-006.jpg" alt="Understanding the Graphics — Page 6" loading="lazy" decoding="async">
+          <div class="label">Page 6</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-007.jpg" alt="Understanding the Graphics — Page 7" loading="lazy" decoding="async">
+          <div class="label">Page 7</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="transmission-cutaway-view">
+      <h2 class="chapter-title">Transmission Cutaway View</h2>
+      <p class="chapter-sub">Pages 8&ndash;8 &middot; 1 page</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-008.jpg" alt="Transmission Cutaway View — Page 8" loading="lazy" decoding="async">
+          <div class="label">Page 8</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="general-description">
+      <h2 class="chapter-title">General Description</h2>
+      <p class="chapter-sub">Pages 9&ndash;9 &middot; 1 page</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-009.jpg" alt="General Description — Page 9" loading="lazy" decoding="async">
+          <div class="label">Page 9</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="principles-of-operation">
+      <h2 class="chapter-title">Principles of Operation</h2>
+      <p class="chapter-sub">Pages 10&ndash;13 &middot; 4 pages</p>
+      <div class="pages">
+        <div class="page-card">
+          <img src="images/4l60e/page-010.jpg" alt="Principles of Operation — Page 10" loading="lazy" decoding="async">
+          <div class="label">Page 10</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-011.jpg" alt="Principles of Operation — Page 11" loading="lazy" decoding="async">
+          <div class="label">Page 11</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-012.jpg" alt="Principles of Operation — Page 12" loading="lazy" decoding="async">
+          <div class="label">Page 12</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-013.jpg" alt="Principles of Operation — Page 13" loading="lazy" decoding="async">
+          <div class="label">Page 13</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="apply-components">
+      <h2 class="chapter-title">Apply Components</h2>
+      <p class="chapter-sub">Pages 14&ndash;23 &middot; 10 pages</p>
+      <div class="pages">
+        <div class="page-card">
+          <img src="images/4l60e/page-014.jpg" alt="Apply Components — Page 14" loading="lazy" decoding="async">
+          <div class="label">Page 14</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-015.jpg" alt="Apply Components — Page 15" loading="lazy" decoding="async">
+          <div class="label">Page 15</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-016.jpg" alt="Apply Components — Page 16" loading="lazy" decoding="async">
+          <div class="label">Page 16</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-017.jpg" alt="Apply Components — Page 17" loading="lazy" decoding="async">
+          <div class="label">Page 17</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-018.jpg" alt="Apply Components — Page 18" loading="lazy" decoding="async">
+          <div class="label">Page 18</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-019.jpg" alt="Apply Components — Page 19" loading="lazy" decoding="async">
+          <div class="label">Page 19</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-020.jpg" alt="Apply Components — Page 20" loading="lazy" decoding="async">
+          <div class="label">Page 20</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-021.jpg" alt="Apply Components — Page 21" loading="lazy" decoding="async">
+          <div class="label">Page 21</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-022.jpg" alt="Apply Components — Page 22" loading="lazy" decoding="async">
+          <div class="label">Page 22</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-023.jpg" alt="Apply Components — Page 23" loading="lazy" decoding="async">
+          <div class="label">Page 23</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="planetary-gear-sets">
+      <h2 class="chapter-title">Planetary Gear Sets</h2>
+      <p class="chapter-sub">Pages 24&ndash;26 &middot; 3 pages</p>
+      <div class="pages">
+        <div class="page-card">
+          <img src="images/4l60e/page-024.jpg" alt="Planetary Gear Sets — Page 24" loading="lazy" decoding="async">
+          <div class="label">Page 24</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-025.jpg" alt="Planetary Gear Sets — Page 25" loading="lazy" decoding="async">
+          <div class="label">Page 25</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-026.jpg" alt="Planetary Gear Sets — Page 26" loading="lazy" decoding="async">
+          <div class="label">Page 26</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="hydraulic-control-components">
+      <h2 class="chapter-title">Hydraulic Control Components</h2>
+      <p class="chapter-sub">Pages 27&ndash;33 &middot; 7 pages</p>
+      <div class="pages">
+        <div class="page-card">
+          <img src="images/4l60e/page-027.jpg" alt="Hydraulic Control Components — Page 27" loading="lazy" decoding="async">
+          <div class="label">Page 27</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-028.jpg" alt="Hydraulic Control Components — Page 28" loading="lazy" decoding="async">
+          <div class="label">Page 28</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-029.jpg" alt="Hydraulic Control Components — Page 29" loading="lazy" decoding="async">
+          <div class="label">Page 29</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-030.jpg" alt="Hydraulic Control Components — Page 30" loading="lazy" decoding="async">
+          <div class="label">Page 30</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-031.jpg" alt="Hydraulic Control Components — Page 31" loading="lazy" decoding="async">
+          <div class="label">Page 31</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-032.jpg" alt="Hydraulic Control Components — Page 32" loading="lazy" decoding="async">
+          <div class="label">Page 32</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-033.jpg" alt="Hydraulic Control Components — Page 33" loading="lazy" decoding="async">
+          <div class="label">Page 33</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="electronic-control-components">
+      <h2 class="chapter-title">Electronic Control Components</h2>
+      <p class="chapter-sub">Pages 34&ndash;40 &middot; 7 pages</p>
+      <div class="pages">
+        <div class="page-card">
+          <img src="images/4l60e/page-034.jpg" alt="Electronic Control Components — Page 34" loading="lazy" decoding="async">
+          <div class="label">Page 34</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-035.jpg" alt="Electronic Control Components — Page 35" loading="lazy" decoding="async">
+          <div class="label">Page 35</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-036.jpg" alt="Electronic Control Components — Page 36" loading="lazy" decoding="async">
+          <div class="label">Page 36</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-037.jpg" alt="Electronic Control Components — Page 37" loading="lazy" decoding="async">
+          <div class="label">Page 37</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-038.jpg" alt="Electronic Control Components — Page 38" loading="lazy" decoding="async">
+          <div class="label">Page 38</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-039.jpg" alt="Electronic Control Components — Page 39" loading="lazy" decoding="async">
+          <div class="label">Page 39</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-040.jpg" alt="Electronic Control Components — Page 40" loading="lazy" decoding="async">
+          <div class="label">Page 40</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="power-flow">
+      <h2 class="chapter-title">Power Flow</h2>
+      <p class="chapter-sub">Pages 41&ndash;65 &middot; 25 pages</p>
+      <div class="pages">
+        <div class="page-card">
+          <img src="images/4l60e/page-041.jpg" alt="Power Flow — Page 41" loading="lazy" decoding="async">
+          <div class="label">Page 41</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-042.jpg" alt="Power Flow — Page 42" loading="lazy" decoding="async">
+          <div class="label">Page 42</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-043.jpg" alt="Power Flow — Page 43" loading="lazy" decoding="async">
+          <div class="label">Page 43</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-044.jpg" alt="Power Flow — Page 44" loading="lazy" decoding="async">
+          <div class="label">Page 44</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-045.jpg" alt="Power Flow — Page 45" loading="lazy" decoding="async">
+          <div class="label">Page 45</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-046.jpg" alt="Power Flow — Page 46" loading="lazy" decoding="async">
+          <div class="label">Page 46</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-047.jpg" alt="Power Flow — Page 47" loading="lazy" decoding="async">
+          <div class="label">Page 47</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-048.jpg" alt="Power Flow — Page 48" loading="lazy" decoding="async">
+          <div class="label">Page 48</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-049.jpg" alt="Power Flow — Page 49" loading="lazy" decoding="async">
+          <div class="label">Page 49</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-050.jpg" alt="Power Flow — Page 50" loading="lazy" decoding="async">
+          <div class="label">Page 50</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-051.jpg" alt="Power Flow — Page 51" loading="lazy" decoding="async">
+          <div class="label">Page 51</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-052.jpg" alt="Power Flow — Page 52" loading="lazy" decoding="async">
+          <div class="label">Page 52</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-053.jpg" alt="Power Flow — Page 53" loading="lazy" decoding="async">
+          <div class="label">Page 53</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-054.jpg" alt="Power Flow — Page 54" loading="lazy" decoding="async">
+          <div class="label">Page 54</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-055.jpg" alt="Power Flow — Page 55" loading="lazy" decoding="async">
+          <div class="label">Page 55</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-056.jpg" alt="Power Flow — Page 56" loading="lazy" decoding="async">
+          <div class="label">Page 56</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-057.jpg" alt="Power Flow — Page 57" loading="lazy" decoding="async">
+          <div class="label">Page 57</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-058.jpg" alt="Power Flow — Page 58" loading="lazy" decoding="async">
+          <div class="label">Page 58</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-059.jpg" alt="Power Flow — Page 59" loading="lazy" decoding="async">
+          <div class="label">Page 59</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-060.jpg" alt="Power Flow — Page 60" loading="lazy" decoding="async">
+          <div class="label">Page 60</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-061.jpg" alt="Power Flow — Page 61" loading="lazy" decoding="async">
+          <div class="label">Page 61</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-062.jpg" alt="Power Flow — Page 62" loading="lazy" decoding="async">
+          <div class="label">Page 62</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-063.jpg" alt="Power Flow — Page 63" loading="lazy" decoding="async">
+          <div class="label">Page 63</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-064.jpg" alt="Power Flow — Page 64" loading="lazy" decoding="async">
+          <div class="label">Page 64</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-065.jpg" alt="Power Flow — Page 65" loading="lazy" decoding="async">
+          <div class="label">Page 65</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="complete-hydraulic-circuits">
+      <h2 class="chapter-title">Complete Hydraulic Circuits</h2>
+      <p class="chapter-sub">Pages 66&ndash;91 &middot; 26 pages</p>
+      <div class="pages">
+        <div class="page-card">
+          <img src="images/4l60e/page-066.jpg" alt="Complete Hydraulic Circuits — Page 66" loading="lazy" decoding="async">
+          <div class="label">Page 66</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-067.jpg" alt="Complete Hydraulic Circuits — Page 67" loading="lazy" decoding="async">
+          <div class="label">Page 67</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-068.jpg" alt="Complete Hydraulic Circuits — Page 68" loading="lazy" decoding="async">
+          <div class="label">Page 68</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-069.jpg" alt="Complete Hydraulic Circuits — Page 69" loading="lazy" decoding="async">
+          <div class="label">Page 69</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-070.jpg" alt="Complete Hydraulic Circuits — Page 70" loading="lazy" decoding="async">
+          <div class="label">Page 70</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-071.jpg" alt="Complete Hydraulic Circuits — Page 71" loading="lazy" decoding="async">
+          <div class="label">Page 71</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-072.jpg" alt="Complete Hydraulic Circuits — Page 72" loading="lazy" decoding="async">
+          <div class="label">Page 72</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-073.jpg" alt="Complete Hydraulic Circuits — Page 73" loading="lazy" decoding="async">
+          <div class="label">Page 73</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-074.jpg" alt="Complete Hydraulic Circuits — Page 74" loading="lazy" decoding="async">
+          <div class="label">Page 74</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-075.jpg" alt="Complete Hydraulic Circuits — Page 75" loading="lazy" decoding="async">
+          <div class="label">Page 75</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-076.jpg" alt="Complete Hydraulic Circuits — Page 76" loading="lazy" decoding="async">
+          <div class="label">Page 76</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-077.jpg" alt="Complete Hydraulic Circuits — Page 77" loading="lazy" decoding="async">
+          <div class="label">Page 77</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-078.jpg" alt="Complete Hydraulic Circuits — Page 78" loading="lazy" decoding="async">
+          <div class="label">Page 78</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-079.jpg" alt="Complete Hydraulic Circuits — Page 79" loading="lazy" decoding="async">
+          <div class="label">Page 79</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-080.jpg" alt="Complete Hydraulic Circuits — Page 80" loading="lazy" decoding="async">
+          <div class="label">Page 80</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-081.jpg" alt="Complete Hydraulic Circuits — Page 81" loading="lazy" decoding="async">
+          <div class="label">Page 81</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-082.jpg" alt="Complete Hydraulic Circuits — Page 82" loading="lazy" decoding="async">
+          <div class="label">Page 82</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-083.jpg" alt="Complete Hydraulic Circuits — Page 83" loading="lazy" decoding="async">
+          <div class="label">Page 83</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-084.jpg" alt="Complete Hydraulic Circuits — Page 84" loading="lazy" decoding="async">
+          <div class="label">Page 84</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-085.jpg" alt="Complete Hydraulic Circuits — Page 85" loading="lazy" decoding="async">
+          <div class="label">Page 85</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-086.jpg" alt="Complete Hydraulic Circuits — Page 86" loading="lazy" decoding="async">
+          <div class="label">Page 86</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-087.jpg" alt="Complete Hydraulic Circuits — Page 87" loading="lazy" decoding="async">
+          <div class="label">Page 87</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-088.jpg" alt="Complete Hydraulic Circuits — Page 88" loading="lazy" decoding="async">
+          <div class="label">Page 88</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-089.jpg" alt="Complete Hydraulic Circuits — Page 89" loading="lazy" decoding="async">
+          <div class="label">Page 89</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-090.jpg" alt="Complete Hydraulic Circuits — Page 90" loading="lazy" decoding="async">
+          <div class="label">Page 90</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-091.jpg" alt="Complete Hydraulic Circuits — Page 91" loading="lazy" decoding="async">
+          <div class="label">Page 91</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="lubrication-points">
+      <h2 class="chapter-title">Lubrication Points</h2>
+      <p class="chapter-sub">Pages 92&ndash;92 &middot; 1 page</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-092.jpg" alt="Lubrication Points — Page 92" loading="lazy" decoding="async">
+          <div class="label">Page 92</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="bushing-bearing-and-washer-locations">
+      <h2 class="chapter-title">Bushing, Bearing &amp; Washer Locations</h2>
+      <p class="chapter-sub">Pages 93&ndash;93 &middot; 1 page</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-093.jpg" alt="Bushing, Bearing &amp; Washer Locations — Page 93" loading="lazy" decoding="async">
+          <div class="label">Page 93</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="seal-locations">
+      <h2 class="chapter-title">Seal Locations</h2>
+      <p class="chapter-sub">Pages 94&ndash;94 &middot; 1 page</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-094.jpg" alt="Seal Locations — Page 94" loading="lazy" decoding="async">
+          <div class="label">Page 94</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="illustrated-parts-list">
+      <h2 class="chapter-title">Illustrated Parts List</h2>
+      <p class="chapter-sub">Pages 95&ndash;102 &middot; 8 pages</p>
+      <div class="pages">
+        <div class="page-card">
+          <img src="images/4l60e/page-095.jpg" alt="Illustrated Parts List — Page 95" loading="lazy" decoding="async">
+          <div class="label">Page 95</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-096.jpg" alt="Illustrated Parts List — Page 96" loading="lazy" decoding="async">
+          <div class="label">Page 96</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-097.jpg" alt="Illustrated Parts List — Page 97" loading="lazy" decoding="async">
+          <div class="label">Page 97</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-098.jpg" alt="Illustrated Parts List — Page 98" loading="lazy" decoding="async">
+          <div class="label">Page 98</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-099.jpg" alt="Illustrated Parts List — Page 99" loading="lazy" decoding="async">
+          <div class="label">Page 99</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-100.jpg" alt="Illustrated Parts List — Page 100" loading="lazy" decoding="async">
+          <div class="label">Page 100</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-101.jpg" alt="Illustrated Parts List — Page 101" loading="lazy" decoding="async">
+          <div class="label">Page 101</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-102.jpg" alt="Illustrated Parts List — Page 102" loading="lazy" decoding="async">
+          <div class="label">Page 102</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="basic-specifications">
+      <h2 class="chapter-title">Basic Specifications</h2>
+      <p class="chapter-sub">Pages 103&ndash;103 &middot; 1 page</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-103.jpg" alt="Basic Specifications — Page 103" loading="lazy" decoding="async">
+          <div class="label">Page 103</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="product-designation-system">
+      <h2 class="chapter-title">Product Designation System</h2>
+      <p class="chapter-sub">Pages 104&ndash;104 &middot; 1 page</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-104.jpg" alt="Product Designation System — Page 104" loading="lazy" decoding="async">
+          <div class="label">Page 104</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="glossary">
+      <h2 class="chapter-title">Glossary</h2>
+      <p class="chapter-sub">Pages 105&ndash;106 &middot; 2 pages</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-105.jpg" alt="Glossary — Page 105" loading="lazy" decoding="async">
+          <div class="label">Page 105</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-106.jpg" alt="Glossary — Page 106" loading="lazy" decoding="async">
+          <div class="label">Page 106</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="abbreviations">
+      <h2 class="chapter-title">Abbreviations</h2>
+      <p class="chapter-sub">Pages 107&ndash;108 &middot; 2 pages</p>
+      <div class="pages single">
+        <div class="page-card">
+          <img src="images/4l60e/page-107.jpg" alt="Abbreviations — Page 107" loading="lazy" decoding="async">
+          <div class="label">Page 107</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-108.jpg" alt="Abbreviations — Page 108" loading="lazy" decoding="async">
+          <div class="label">Page 108</div>
+        </div>
+      </div>
+    </section>
+    <section class="chapter" id="index">
+      <h2 class="chapter-title">Index</h2>
+      <p class="chapter-sub">Pages 109&ndash;112 &middot; 4 pages</p>
+      <div class="pages">
+        <div class="page-card">
+          <img src="images/4l60e/page-109.jpg" alt="Index — Page 109" loading="lazy" decoding="async">
+          <div class="label">Page 109</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-110.jpg" alt="Index — Page 110" loading="lazy" decoding="async">
+          <div class="label">Page 110</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-111.jpg" alt="Index — Page 111" loading="lazy" decoding="async">
+          <div class="label">Page 111</div>
+        </div>
+        <div class="page-card">
+          <img src="images/4l60e/page-112.jpg" alt="Index — Page 112" loading="lazy" decoding="async">
+          <div class="label">Page 112</div>
+        </div>
+      </div>
+    </section>
+    </div>
+  </div>
+  
+  <div class="lightbox">
+    <button class="lb-close" aria-label="Close">&times;</button>
+    <button class="lb-nav prev" aria-label="Previous">&lsaquo;</button>
+    <button class="lb-nav next" aria-label="Next">&rsaquo;</button>
+    <div class="lb-viewport">
+      <img src="" alt="Zoomed page">
+    </div>
+    <div class="lb-counter"></div>
+    <div class="lb-hint">Pinch to zoom &middot; Swipe to navigate</div>
+  </div>
+  <button class="back-to-top" aria-label="Back to top">&uarr;</button>
+  <script>document.addEventListener('DOMContentLoaded', () => {
+  // --- Sidebar toggle (mobile) ---
+  const menuBtn = document.querySelector('.menu-btn');
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.querySelector('.sidebar-overlay');
+  if (menuBtn && sidebar) {
+    menuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      overlay && overlay.classList.toggle('open');
+    });
+    overlay && overlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+    });
+    sidebar.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay && overlay.classList.remove('open');
+      });
+    });
+  }
+
+  // --- Active chapter tracking ---
+  const chapters = document.querySelectorAll('.chapter');
+  const navLinks = document.querySelectorAll('.sidebar a');
+  if (chapters.length && navLinks.length) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const link = document.querySelector('.sidebar a[href="#' + e.target.id + '"]');
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    chapters.forEach(ch => observer.observe(ch));
+  }
+
+  // --- Lightbox ---
+  const lb = document.querySelector('.lightbox');
+  if (!lb) return;
+  const lbImg = lb.querySelector('.lb-viewport img');
+  const lbClose = lb.querySelector('.lb-close');
+  const lbPrev = lb.querySelector('.lb-nav.prev');
+  const lbNext = lb.querySelector('.lb-nav.next');
+  const lbCounter = lb.querySelector('.lb-counter');
+  const allCards = Array.from(document.querySelectorAll('.page-card'));
+  let currentIdx = 0;
+
+  function openLightbox(idx) {
+    currentIdx = idx;
+    const card = allCards[idx];
+    const img = card.querySelector('img');
+    lbImg.src = img.src;
+    lbImg.style.transform = '';
+    lbImg.style.width = '';
+    lbCounter.textContent = 'Page ' + (idx + 1) + ' of ' + allCards.length;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  function navigate(dir) {
+    const next = currentIdx + dir;
+    if (next >= 0 && next < allCards.length) openLightbox(next);
+  }
+
+  allCards.forEach((card, i) => {
+    card.addEventListener('click', () => openLightbox(i));
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', () => navigate(-1));
+  lbNext.addEventListener('click', () => navigate(1));
+
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb || e.target.classList.contains('lb-viewport')) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+
+  // --- Swipe support in lightbox ---
+  let touchStartX = 0;
+  const viewport = lb.querySelector('.lb-viewport');
+  viewport.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  viewport.addEventListener('touchend', (e) => {
+    if (e.changedTouches.length === 1) {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 60) navigate(diff > 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
+  // --- Back to top ---
+  const btn = document.querySelector('.back-to-top');
+  if (btn) {
+    window.addEventListener('scroll', () => {
+      btn.style.display = window.scrollY > 600 ? 'flex' : 'none';
+    }, { passive: true });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+});
+</script>
+</body>
+</html>
